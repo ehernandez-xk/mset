@@ -10,7 +10,7 @@ type remove struct {
 
 var RemoveCMD = remove{
 	name:        "remove",
-	description: "Removes the file in the catalog",
+	description: "Remove the <name> from the catalog",
 	usage:       "mset remove <name>",
 }
 

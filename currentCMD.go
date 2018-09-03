@@ -10,7 +10,7 @@ type current struct {
 
 var CurrentCMD = current{
 	name:        "current",
-	description: "Shows the current file",
+	description: "Show the name of the current settings.xml file",
 	usage:       "mset current",
 }
 

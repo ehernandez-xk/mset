@@ -10,7 +10,7 @@ type add struct {
 
 var AddCMD = add{
 	name:        "add",
-	description: "Adds a new settings.xml file to the catalog. This is done copying the <file> to the catalog",
+	description: "Add a new entry in the catalog, copying <file> in a new settings.xml",
 	usage:       "mset add <name> <file>",
 }
 

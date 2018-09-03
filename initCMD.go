@@ -10,7 +10,7 @@ type initc struct {
 
 var InitCMD = initc{
 	name:        "init",
-	description: fmt.Sprintf("Creates an empty directory %v to store the files", getCatalogPath()),
+	description: fmt.Sprintf("Create an empty catalog %v to store the settings.xml files", getCatalogPath()),
 	usage:       "mset init",
 }
 

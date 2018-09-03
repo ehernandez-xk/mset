@@ -23,14 +23,14 @@ func help(commands []Command) {
 		fmt.Printf("%v\t %v\n", c.Name(), c.Description())
 		fmt.Printf("\t %v\n", c.Usage())
 	}
-	fmt.Println("help\t Shows this help")
+	fmt.Println("help\t Show this help")
 }
 
 func main() {
 
 	commands := []Command{
 		mset.AddCMD,
-		mset.UseCMD,
+		mset.SetCMD,
 		mset.CurrentCMD,
 		mset.InitCMD,
 		mset.ListCMD,
@@ -49,9 +49,9 @@ func main() {
 				fmt.Println(err.Error())
 				os.Exit(1)
 			}
-			// add was success add to current
+			// add was success set to current
 			if currentCMD == "add" {
-				mset.UseCMD.Run(os.Args[2:])
+				mset.SetCMD.Run(os.Args[2:])
 			}
 			return
 		}

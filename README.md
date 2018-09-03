@@ -4,11 +4,11 @@ Maven Settings cli
 
 ## Description
 
-Is a CLI for  developers that helps to switch, add and save the settings.xml file, allowing to use the correct settings.xml in the desired maven project.
+Is a simple cli tool that helps to easy save, set and switch the settings.xml file inside the ~/.m2 directory
 
 ## Usage
 
-```
+```sh
 $mset init
 mset initialized
 
@@ -21,7 +21,7 @@ projectB added
 $mset current
 projectB
 
-$mset change projectB
+$mset set projectB
 projectB changed
 
 $mset list
@@ -30,40 +30,34 @@ projectB
 
 ```
 
+## Install
+
+- See the Makefile to build the binary and then copy it to a bin directory inside $PATH
+
 ## Commands
-`mset change <name>`
-Changes the 
+
+`mset init`
+Create an empty catalog /Users/ehernandez/.m2/.mset to store the settings.xml files
+
+`mset set <name>`
+Set the `<name>` as current, copying the settings.xml in ~.m2/
 
 `mset add <name> <file_location>`
-permite agregar un nuevo settings al catálogo de settings
+Add a new entry in the catalog, copying <file> in a new settings.xml
 
 `mset current`
-muestra el settings que está configurado
+Show the name of the current settings.xml file
 
 `mset list`
-muestra lista de settings disponibles, estos fueron previamente configurados
-también podría imprimir la ubicación de los archivos en backup
+List files available in the catalog
 
+`remove <name>`
+Remove the `<name>` from the catalog
 
-Persistence:
-Aún no se donde seria bueno persistir los archivos settings o archivos de configuración que se puedan necesitar: (que esto pueda ser configurado)
+## Notice
 
-dentro del ~/.m2/.mset (default location)
-ventaja es que esté en un lugar que se le pueda hacer backups sin andar buscando la carpeta
-saber si maven podría borrarlo o afectar su funcionamiento
-dentro ~/.mset
-
-No se necesita otro tipo de persistencia
-
-Formato:
-Los archivos settings.xml que se agreguen pueden ser persistidos de la siguiente forma: lifeway-settings.xml, danta-settings.xml
-formato aceptado por el cli <name>-settings.xml
-otros formatos diferentes deben de ser ignorados, de esta forma pueden ser agregados manualmente o por medio de command "add"
-
-
-New ideas
-generate basic settings.xml or basic files, like [empty, basic]
-mset cmd -s danta mvn clean install
-check if the file is a correct xml file
-see elements in the file, like servers, plugins
-add elements in the file, like a new server
+- By default the catalog is created in `$HOME/.m2/.mset` but this can be changed using an EnvVar `MSET_CATALOG_PATH`
+- New entries with `add` command are stored with a suffix `-settings.xml` in the catalog
+- Name entries added with `add` must be alphanumerica and wit - (`^[a-zA-Z0-9-]*$`)
+- The command `list` only sees files with the suffix `-settings.xml` other are ignored
+- Set a new file with `set` command copies the related settings.xml file to `$HOME/.m2/settings.xml`

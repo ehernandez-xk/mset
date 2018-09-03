@@ -10,7 +10,7 @@ type list struct {
 
 var ListCMD = list{
 	name:        "list",
-	description: "Lists the files in the catalog",
+	description: "List files available in the catalog",
 	usage:       "mset list",
 }
 
