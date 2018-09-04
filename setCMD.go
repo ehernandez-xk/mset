@@ -24,6 +24,21 @@ func (c set) Run(args []string) error {
 	}
 	name := args[0]
 
-	fmt.Printf("'%v' set to current\n", name)
+	fpath, err := findFilePathInCatalog(name)
+	if err != nil {
+		return err
+	}
+
+	err = setFileToMavenPath(fpath)
+	if err != nil {
+		return err
+	}
+
+	err = setNameToCurrent(name)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("added '%v' to current\n", name)
 	return nil
 }

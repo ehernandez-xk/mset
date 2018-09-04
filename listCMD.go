@@ -19,8 +19,18 @@ func (c list) Description() string { return c.description }
 func (c list) Usage() string       { return c.usage }
 
 func (c list) Run([]string) error {
-	fmt.Println("danta")
-	fmt.Println("lifeway")
-	fmt.Println("empty")
+	files, err := filesInCatalog()
+	if err != nil {
+		return err
+	}
+	current, _ := getCurrentName()
+	for k := range files {
+		fmt.Print(k)
+		if k == current {
+			fmt.Print("\t(current)")
+		}
+		fmt.Println("")
+	}
+
 	return nil
 }

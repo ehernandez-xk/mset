@@ -16,9 +16,7 @@ type Command interface {
 }
 
 func help(commands []Command) {
-	fmt.Println("VERSION:")
-	fmt.Printf("\t%v\n", mset.Version)
-	fmt.Println("COMMANDS:")
+	fmt.Printf("VERSION:\n\t%v\nCOMMANDS:\n", mset.Version)
 	for _, c := range commands {
 		fmt.Printf("%v\t %v\n", c.Name(), c.Description())
 		fmt.Printf("\t %v\n", c.Usage())

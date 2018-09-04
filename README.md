@@ -22,7 +22,7 @@ $mset current
 projectB
 
 $mset set projectB
-projectB changed
+added projectB to current
 
 $mset list
 projectA
@@ -58,6 +58,7 @@ Remove the `<name>` from the catalog
 
 - By default the catalog is created in `$HOME/.m2/.mset` but this can be changed using an EnvVar `MSET_CATALOG_PATH`
 - New entries with `add` command are stored with a suffix `-settings.xml` in the catalog
-- Name entries added with `add` must be alphanumerica and wit - (`^[a-zA-Z0-9-]*$`)
+- Name entries added with `add` must be alphanumerica and with `-` regexp: (`^[a-zA-Z0-9-]*$`)
 - The command `list` only sees files with the suffix `-settings.xml` other are ignored
 - Set a new file with `set` command copies the related settings.xml file to `$HOME/.m2/settings.xml`
+- The default Maven directory is `$HOME/.m2/` but this can be changed using an EnvVar `MSET_MAVEN_PATH`

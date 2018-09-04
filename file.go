@@ -3,19 +3,23 @@ package mset
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"os/user"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 const (
-	catalogBaseDir       = ".m2"
-	catalogPathEnvVar    = "MSET_CATALOG_PATH" // replace default e.g ~/myDirectory
-	catalogDirectoryName = ".mset"
-	fileSuffix           = "-settings.xml"
-	fileEntryRegexp      = `^[a-zA-Z0-9-]*$`
-	configFileCurrent    = ".mcurrent"
+	catalogBaseDir        = ".m2"
+	catalogPathEnvVar     = "MSET_CATALOG_PATH" // replace default e.g ~/myDirectory
+	mavenPathEnvVar       = "MSET_MAVEN_PATH"
+	mavenSettingsFileName = "settings.xml"
+	catalogDirectoryName  = ".mset"
+	fileSuffix            = "-settings.xml"
+	fileEntryRegexp       = `^[a-zA-Z0-9-]*$`
+	configFileCurrent     = ".mcurrent"
 )
 
 // check if the file exist
@@ -54,8 +58,38 @@ func saveFileToCatalog(name, path string) error {
 }
 
 // a list of the names in the catalog, files that follow  xxxx-settings.xml
-func filesInCatalog() []string {
-	return []string{}
+func filesInCatalog() (map[string]string, error) {
+	catalogPath := getCatalogPath()
+	allFiles, err := ioutil.ReadDir(catalogPath)
+	files := map[string]string{}
+	if err != nil {
+		return files, err
+	}
+
+	for _, f := range allFiles {
+		if !f.IsDir() {
+			if strings.HasSuffix(f.Name(), fileSuffix) {
+				files[strings.TrimSuffix(f.Name(), fileSuffix)] = filepath.Join(catalogPath, f.Name())
+			}
+		}
+	}
+	return files, nil
+}
+
+func findFilePathInCatalog(name string) (string, error) {
+	files, err := filesInCatalog()
+	if err != nil {
+		return "", err
+	}
+	if len(files) == 0 {
+		return "", fmt.Errorf("files not available in catalog")
+	}
+	for k, path := range files {
+		if k == name {
+			return path, nil
+		}
+	}
+	return "", fmt.Errorf("file not found in catalog")
 }
 
 // save current file selected in a .mcurrent, the file is created if not present
@@ -79,6 +113,12 @@ func getCatalogPath() string {
 		return filepath.Join(path, catalogDirectoryName)
 	}
 	return filepath.Join(getUserHomeDir(), catalogBaseDir, catalogDirectoryName)
+}
+func getMavenPath() string {
+	if path := os.Getenv(mavenPathEnvVar); path != "" {
+		return filepath.Join(path, catalogBaseDir)
+	}
+	return filepath.Join(getUserHomeDir(), catalogBaseDir)
 }
 
 func getUserHomeDir() string {
@@ -111,4 +151,24 @@ func copy(src, dst string) error {
 		return err
 	}
 	return out.Close()
+}
+
+func setFileToMavenPath(path string) error {
+	mavenPath := getMavenPath()
+	fmt.Println("copy ", path, "to", filepath.Join(mavenPath, mavenSettingsFileName))
+	return copy(path, filepath.Join(mavenPath, mavenSettingsFileName))
+}
+
+func setNameToCurrent(name string) error {
+	currentPath := filepath.Join(getCatalogPath(), configFileCurrent)
+	ioutil.WriteFile(currentPath, []byte(name), 0644)
+	return nil
+}
+func getCurrentName() (string, error) {
+	currentPath := filepath.Join(getCatalogPath(), configFileCurrent)
+	c, err := ioutil.ReadFile(currentPath)
+	if err != nil {
+		return "", err
+	}
+	return string(c), nil
 }

@@ -19,6 +19,10 @@ func (c current) Description() string { return c.description }
 func (c current) Usage() string       { return c.usage }
 
 func (c current) Run([]string) error {
-	fmt.Println("running Current command")
+	name, err := getCurrentName()
+	if err != nil {
+		return err
+	}
+	fmt.Println(name)
 	return nil
 }
