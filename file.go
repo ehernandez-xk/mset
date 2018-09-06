@@ -24,15 +24,36 @@ const (
 
 // check if the file exist
 func fileExist(path string) error {
-	fi, err := os.Stat(path)
-
-	if os.IsNotExist(err) {
+	fi, err := pathExist(path)
+	if err != nil {
 		return err
 	}
+
 	if fi.IsDir() {
 		return fmt.Errorf("path '%v' is a directory", path)
 	}
 	return nil
+}
+
+func directoryExist(path string) error {
+	fi, err := pathExist(path)
+	if err != nil {
+		return err
+	}
+
+	if !fi.IsDir() {
+		return fmt.Errorf("path '%v' is a file", path)
+	}
+	return nil
+}
+
+func pathExist(path string) (os.FileInfo, error) {
+	fi, err := os.Stat(path)
+
+	if os.IsNotExist(err) {
+		return nil, err
+	}
+	return fi, nil
 }
 
 //
@@ -155,7 +176,6 @@ func copy(src, dst string) error {
 
 func setFileToMavenPath(path string) error {
 	mavenPath := getMavenPath()
-	fmt.Println("copy ", path, "to", filepath.Join(mavenPath, mavenSettingsFileName))
 	return copy(path, filepath.Join(mavenPath, mavenSettingsFileName))
 }
 

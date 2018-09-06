@@ -8,51 +8,56 @@ Is a simple cli tool that helps to easy save, set and switch the settings.xml fi
 
 ## Usage
 
+you can run mset command in any path
+
 ```sh
+# initialize the catalog
 $mset init
-mset initialized
 
+# add or save one settings.xml file to the catalog
 $mset add projectA settings1.xml
-projectA added
 
+# add another file to the catalog
 $mset add projectB settings2.xml
-projectB added
 
+# see what file is currently used
 $mset current
 projectB
 
+# change to use the settings.xml called projectB
 $mset set projectB
 added projectB to current
 
+# see all your files stored in the catalog
 $mset list
 projectA
-projectB
+projectB (current)
 
 ```
 
 ## Install
 
-- See the Makefile to build the binary and then copy it to a bin directory inside $PATH
+- See Makefile to build and then copy the binary to a /bin directory inside $PATH
 
 ## Commands
 
 `mset init`
-Create an empty catalog /Users/ehernandez/.m2/.mset to store the settings.xml files
+Initialize the catalog to store your settings.xml files, this is done under `$HOME/.m2/.mset`. Also stores the current `.m2/settings.xml`
 
 `mset set <name>`
-Set the `<name>` as current, copying the settings.xml in ~.m2/
+Set the `<name>` as current, this copies settings.xml file related to `<name>` to `~.m2/settings.xml`
 
-`mset add <name> <file_location>`
-Add a new entry in the catalog, copying <file> in a new settings.xml
+`mset add <name> <file>`
+Add a new settins.xml file in the catalog
 
 `mset current`
 Show the name of the current settings.xml file
 
 `mset list`
-List files available in the catalog
+List all available setting.xml files in the catalog
 
 `remove <name>`
-Remove the `<name>` from the catalog
+Remove the settings.xml fiile from the catalog
 
 ## Notice
 
