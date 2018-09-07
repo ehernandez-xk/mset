@@ -21,6 +21,9 @@ func (c initc) Name() string        { return c.name }
 func (c initc) Description() string { return c.description }
 func (c initc) Usage() string       { return c.usage }
 
+// Run command initializes the catalog, this command must be run only once
+// it does some checks and then creates the .mset (catalog directory)
+// prevents to override the actual settings.xml asking for a name to save it in the catalog
 func (c initc) Run([]string) error {
 
 	// check if mset is already initialized

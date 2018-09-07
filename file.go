@@ -58,8 +58,8 @@ func pathExist(path string) (os.FileInfo, error) {
 
 //
 func isValidName(name string) bool {
-	e := regexp.MustCompile(fileEntryRegexp)
-	return e.MatchString(name)
+	match, _ := regexp.MatchString(fileEntryRegexp, name)
+	return match
 }
 
 // validName+ 'settings.xml' e.g. danta-settings.xml
@@ -120,7 +120,7 @@ func saveCurrentFile(name string) error {
 	if err != nil {
 		return err
 	}
-	f, err := os.OpenFile(catalogPath+"/"+name, os.O_RDONLY|os.O_CREATE, 0666)
+	f, err := os.OpenFile(filepath.Join(catalogPath, name), os.O_RDONLY|os.O_CREATE, 0666)
 	if err != nil {
 		return err
 	}

@@ -18,6 +18,8 @@ func (c set) Name() string        { return c.name }
 func (c set) Description() string { return c.description }
 func (c set) Usage() string       { return c.usage }
 
+// Run command allows to set a file stored in the catalog to be the current
+// this is done copying the file from the catalog to .m2/settings.xml
 func (c set) Run(args []string) error {
 	if len(args) < 1 {
 		return fmt.Errorf("insufficient arguments. USAGE: %v", c.usage)

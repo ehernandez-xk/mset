@@ -18,6 +18,8 @@ func (c list) Name() string        { return c.name }
 func (c list) Description() string { return c.description }
 func (c list) Usage() string       { return c.usage }
 
+// Run command shows the list of settings.xml files stored in the catalog
+// also shows which file is the current
 func (c list) Run([]string) error {
 	files, err := filesInCatalog()
 	if err != nil {

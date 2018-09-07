@@ -18,6 +18,8 @@ func (c current) Name() string        { return c.name }
 func (c current) Description() string { return c.description }
 func (c current) Usage() string       { return c.usage }
 
+// Run command finds and shows the current settings.xml file in the catalog
+// the current file is placed in .m2/settings.xml
 func (c current) Run([]string) error {
 	name, err := getCurrentName()
 	if err != nil {

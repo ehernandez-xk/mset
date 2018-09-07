@@ -18,6 +18,8 @@ func (c add) Name() string        { return c.name }
 func (c add) Description() string { return c.description }
 func (c add) Usage() string       { return c.usage }
 
+// Run command adds a new settings.xml file to the catalog
+// it does some checks before save it as valid name
 func (c add) Run(args []string) error {
 	if len(args) < 2 {
 		return fmt.Errorf("insufficient arguments. USAGE: %v", c.usage)
