@@ -69,6 +69,12 @@ func setEntryName(name string) string {
 
 // check if all files in the catalog to check if the name exist
 func isNameAlreadyTaken(name string) bool {
+	m, _ := filesInCatalog()
+	for k := range m {
+		if k == name {
+			return true
+		}
+	}
 	return false
 }
 
@@ -191,4 +197,11 @@ func getCurrentName() (string, error) {
 		return "", err
 	}
 	return string(c), nil
+}
+
+func removeFile(path string) error {
+	if err := fileExist(path); err != nil {
+		return err
+	}
+	return os.Remove(path)
 }
