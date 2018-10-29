@@ -24,14 +24,14 @@ $mset add projectB settings2.xml
 $mset current
 projectB
 
-# change to use the settings.xml called projectB
-$mset set projectB
-added projectB to current
+# change to use the settings.xml called projectA
+$mset set projectA
+added projectA to current
 
 # see all your files stored in the catalog
 $mset list
-projectA
-projectB (current)
+projectB
+projectA (current)
 
 ```
 
